@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
@@ -80,12 +81,46 @@ class PassportController extends Controller
         if($user->role === 'business') {
             $token = $user->createToken('rac0',
                 ['overview_locations', 'create_locations', 'view_locations', 'update_locations', 'delete_locations',
-                    'search_locations'])->accessToken;
+                    'search_locations', 'overview_cars', 'create_cars', 'view_cars', 'update_cars', 'delete_cars', 'search_cars'])->accessToken;
 //            return response()->json(['token' => $token], 200);
             return $token;
         } else {
-            $token = $user->createToken('rac0', ['view_locations', 'search_locations'])->accessToken;
+            $token = $user->createToken('rac0', ['view_locations', 'search_locations', 'view_cars', 'search_cars'])->accessToken;
             return $token;
         }
+    }
+
+    public function update(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'dateOfBirth' => 'date',
+            'phoneNumber' => 'nullable|string',
+            'role' => 'in:business,customer',
+            'email' => 'required|unique:users,email,'.auth()->user()->id,
+            'password' => 'required|min:6',
+        ]);
+
+        if($validation->fails()) {
+            return response()->json(['error' => $validation->errors()->toJson()]);
+        }
+
+        if($request->role === 'customer' && auth()->user()->role === 'business' && (auth()->user()->locations()->count() > 0))
+            return response()->json(['error' => 'Cannot change role to customer']);
+
+        $updated_user = [
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'dateOfBirth' => $request->dateOfBirth,
+            'phoneNumber' => $request->phoneNumber,
+            'role' => $request->role,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ];
+
+//        return auth()->user();
+
+        return response()->json(auth()->user()->update($updated_user));
     }
 }

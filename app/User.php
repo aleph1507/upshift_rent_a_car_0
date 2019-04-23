@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Location');
     }
+
+    public function cars()
+    {
+        return $this->hasManyThrough('App\Car', 'App\Location');
+    }
 }

@@ -15,4 +15,9 @@ class Location extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function cars()
+    {
+        return $this->hasMany('App\Car');
+    }
 }

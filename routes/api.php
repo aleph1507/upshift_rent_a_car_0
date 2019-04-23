@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 
     Route::get('user', 'PassportController@profile')->middleware(['auth:api']);
     Route::post('logout', 'PassportController@logout')->middleware(['auth:api']);
+    Route::put('/user', 'PassportController@update')->middleware(['auth:api']);
 
 
     Route::get('/locations', 'LocationController@index')->middleware(['auth:api', 'scope:overview_locations']);
@@ -27,5 +28,11 @@ use Illuminate\Http\Request;
     Route::get('/locations/{location}', 'LocationController@show')->middleware(['auth:api', 'scope:view_locations']);
     Route::put('/locations/{location}', 'LocationController@update')->middleware(['auth:api', 'scope:update_locations']);
     Route::delete('/locations/{location}', 'LocationController@destroy')->middleware(['auth:api', 'scope:delete_locations']);
+
+    Route::get('/cars', 'CarController@index')->middleware(['auth:api', 'scope:overview_cars']);
+    Route::post('/cars', 'CarController@store')->middleware(['auth:api', 'scope:create_cars']);
+    Route::get('/cars/{car}', 'CarController@show')->middleware(['auth:api', 'scope:view_cars']);
+    Route::put('/cars/{car}', 'CarController@update')->middleware(['auth:api', 'scope:update_cars']);
+    Route::delete('/cars/{car}', 'CarController@destroy')->middleware(['auth:api', 'scope:delete_cars']);
 
 
