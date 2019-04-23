@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CarController extends Controller
 {
@@ -14,7 +17,8 @@ class CarController extends Controller
      */
     public function index()
     {
-        return response()->json('cars.index');
+        return response()->json(auth()->user()->cars);
+//        return response()->json('cars.index');
     }
 
     /**
@@ -35,7 +39,16 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json('cars.store');
+        //      Car:  'brand','model','year','typeOfFuel', 'status', 'pricePerDay'
+        if(($valid = $this->validateCarRequest($request)) !== true) {
+            return response()->json($valid, 400);
+        }
+
+        if(!($location = $this->getLocationCheckOwnership($request->location_id))) {
+            return response()->json(['error' => 'No such location'], 400);
+        }
+
+        return response()->json($location->cars()->create($request->all()));
     }
 
     /**
@@ -46,7 +59,7 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        return response()->json('cars.show');
+        return response()->json($car, 200);
     }
 
     /**
@@ -69,7 +82,23 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        return response()->json('cars.update');
+        if(($valid = $this->validateCarRequest($request)) !== true) {
+            return response()->json($valid, 400);
+        }
+
+        if(!($location = $this->getLocationCheckOwnership($request->location_id))) {
+            return response()->json(['error' => 'No such location'], 400);
+        }
+
+        if(!(($car = $this->getCarCheckOwnership($car)) instanceof Car)) {
+            return response()->json(['error' => 'No such car'], 400);
+        }
+
+        if($location->cars()->where('id', $car->id)->first()->update($request->all())) {
+            return response()->json(['success' => 'Car updated'], 200);
+        } else {
+            return response()->json(['error' => 'Could not update car'], 500);
+        }
     }
 
     /**
@@ -80,6 +109,47 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        return response()->json('cars.destroy');
+
+        $saved_car = $this->getCarCheckOwnership($car);
+        if($saved_car instanceof Car) {
+            return response()->json($saved_car->delete());
+        } else {
+            return response()->json(['error' => 'No such car'], 400);
+        }
+    }
+
+
+
+    public function validateCarRequest(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'location_id' => 'required|integer',
+            'brand' => 'required|string',
+            'model' => 'required|string',
+            'year' => 'required|integer',
+            'typeOfFuel' => 'required|string',
+            'status' => 'required|in:available,not_available,rented',
+            'pricePerDay' => 'required|numeric',
+        ]);
+
+        if($validation->fails()) {
+            return $validation->errors()->toJson();
+        } else {
+            return true;
+        }
+    }
+
+    public function getCarCheckOwnership(Car $car)
+    {
+        $saved_car = auth()->user()->cars->where('id', $car->id)->first();
+
+        return $saved_car ?? false;
+    }
+
+    public function getLocationCheckOwnership($location_id)
+    {
+        $users_location = auth()->user()->locations->where('id', $location_id)->first();
+
+        return $users_location ?? false;
     }
 }

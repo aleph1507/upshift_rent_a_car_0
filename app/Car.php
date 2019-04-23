@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     protected $fillable = [
-        'brand','model','year','typeOfFuel', 'status', 'pricePerDay'
+        'location_id', 'brand','model','year','typeOfFuel', 'status', 'pricePerDay'
     ];
 
     public function location()
