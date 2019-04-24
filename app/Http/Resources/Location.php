@@ -21,6 +21,7 @@ class Location extends JsonResource
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'phoneNumber' => $this->phoneNumber,
+            'address' => $this->address,
             'totalCars'=> $this->cars->count(),
             'availableCars' => $this->cars()->available()->count(),
             'rentedCars' => $this->cars()->rented()->count()

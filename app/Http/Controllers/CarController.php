@@ -28,11 +28,19 @@ class CarController extends Controller
             $cars = Car::where($searchParams);
 
         if($request->has('filter') && in_array($request->filter, ['status', 'location', 'priceRange'])) {
-            if ($request->has('filterBy')) {
-                if($cars === null)
+            if ($request->has('filter')) {
+                if($cars === null){
+                    if($request->filter === 'priceRange'){
+                        return Car::priceInRange($request->min ?? 0, $request->max ?? INF)->get();
+                    }
                     return Car::where($request->filter, 'LIKE', "%$request->filterBy%")->get();
-                else
+                } else {
+                    if($request->filter === 'priceRange') {
+                        return $cars->priceInRange($request->min ?? 0, $request->max ?? INF)->get();
+                    }
                     return $cars->where($request->filter, 'LIKE', "%$request->filterBy%")->get();
+                }
+
             }
         }
 

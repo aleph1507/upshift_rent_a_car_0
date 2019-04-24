@@ -30,7 +30,7 @@ class Car extends Model
         return $query->where('status', 'rented');
     }
 
-    public function priceInRange($query, $low=-INF, $high=INF)
+    public function scopePriceInRange($query, $low=0, $high=9999)
     {
         return $query->where([
             ['pricePerDay', '>=', $low],
