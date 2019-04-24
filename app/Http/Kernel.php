@@ -19,7 +19,10 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+<<<<<<< HEAD
         \App\Http\Middleware\JsonOnly::class,
+=======
+>>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
     ];
 
     /**
@@ -61,8 +64,11 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+<<<<<<< HEAD
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+=======
+>>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
     ];
 
     /**

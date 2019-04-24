@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+<<<<<<< HEAD
 use Laravel\Passport\Passport;
+=======
+>>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,7 +17,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+<<<<<<< HEAD
          'App\Model' => 'App\Policies\ModelPolicy',
+=======
+        // 'App\Model' => 'App\Policies\ModelPolicy',
+>>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
     ];
 
     /**
@@ -26,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+<<<<<<< HEAD
         Passport::tokensCan([
             'overview_locations' => 'overview_locations',
             'create_locations' => 'create_locations',
@@ -47,5 +55,8 @@ class AuthServiceProvider extends ServiceProvider
         ]);
 
         Passport::routes();
+=======
+        //
+>>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
     }
 }
