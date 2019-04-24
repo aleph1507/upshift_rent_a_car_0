@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+
     Route::post('login', 'PassportController@login');
     Route::post('register', 'PassportController@register');
 
@@ -39,4 +40,5 @@ use Illuminate\Http\Request;
     Route::get('/rents/{rent}', 'RentController@show')->middleware(['auth:api', 'scope:view_rents']);
     Route::put('/rents/{rent}', 'RentController@update')->middleware(['auth:api', 'scope:update_rents']);
     Route::delete('/rents/{rent}', 'RentController@destroy')->middleware(['auth:api', 'scope:delete_rents']);
+
 
