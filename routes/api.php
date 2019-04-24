@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-<<<<<<< HEAD
-
     Route::post('login', 'PassportController@login');
     Route::post('register', 'PassportController@register');
 
@@ -42,9 +40,3 @@ use Illuminate\Http\Request;
     Route::put('/rents/{rent}', 'RentController@update')->middleware(['auth:api', 'scope:update_rents']);
     Route::delete('/rents/{rent}', 'RentController@destroy')->middleware(['auth:api', 'scope:delete_rents']);
 
-
-=======
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
->>>>>>> 1128fdfcda7eb849a5bb998630ee1c410bd7a1d8
