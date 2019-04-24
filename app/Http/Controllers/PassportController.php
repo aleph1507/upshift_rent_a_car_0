@@ -6,7 +6,6 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
-//use function MongoDB\BSON\toJSON;
 use App\Http\Resources\User as UserResource;
 
 class PassportController extends Controller
@@ -80,12 +79,15 @@ class PassportController extends Controller
     {
         if($user->role === 'business') {
             $token = $user->createToken('rac0',
-                ['overview_locations', 'create_locations', 'view_locations', 'update_locations', 'delete_locations',
-                    'search_locations', 'overview_cars', 'create_cars', 'view_cars', 'update_cars', 'delete_cars', 'search_cars'])->accessToken;
+                ['overview_locations', 'create_locations', 'view_locations', 'update_locations', 'delete_locations','search_locations',
+                    'overview_cars', 'create_cars', 'view_cars', 'update_cars', 'delete_cars', 'search_cars',
+                    'overview_rents', 'delete_rents'])->accessToken;
 //            return response()->json(['token' => $token], 200);
             return $token;
         } else {
-            $token = $user->createToken('rac0', ['view_locations', 'search_locations', 'view_cars', 'search_cars'])->accessToken;
+            $token = $user->createToken('rac0', ['view_locations', 'search_locations',
+                                                'view_cars', 'search_cars',
+                                                'create_rents', 'view_rents', 'update_rents'])->accessToken;
             return $token;
         }
     }

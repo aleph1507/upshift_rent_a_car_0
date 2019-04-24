@@ -35,4 +35,10 @@ use Illuminate\Http\Request;
     Route::put('/cars/{car}', 'CarController@update')->middleware(['auth:api', 'scope:update_cars']);
     Route::delete('/cars/{car}', 'CarController@destroy')->middleware(['auth:api', 'scope:delete_cars']);
 
+    Route::get('/rents', 'RentController@index')->middleware(['auth:api', 'scope:overview_rents']);
+    Route::post('/rents', 'RentController@store')->middleware(['auth:api', 'scope:create_rents']);
+    Route::get('/rents/{rent}', 'RentController@show')->middleware(['auth:api', 'scope:view_rents']);
+    Route::put('/rents/{rent}', 'RentController@update')->middleware(['auth:api', 'scope:update_rents']);
+    Route::delete('/rents/{rent}', 'RentController@destroy')->middleware(['auth:api', 'scope:delete_rents']);
+
 

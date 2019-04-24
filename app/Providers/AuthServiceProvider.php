@@ -39,6 +39,11 @@ class AuthServiceProvider extends ServiceProvider
             'update_cars' => 'update_cars',
             'delete_cars' => 'delete_cars',
             'search_cars' => 'search_cars',
+            'overview_rents' => 'overview_rents',
+            'create_rents' => 'create_rents',
+            'view_rents' => 'view_rents',
+            'update_rents' => 'update_rents',
+            'delete_rents' => 'delete_rents',
         ]);
 
         Passport::routes();
