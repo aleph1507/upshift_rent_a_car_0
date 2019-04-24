@@ -1,7 +1,7 @@
-##about
+## about
 Uses Laravel Passport.
 
-##routes
+## routes
 ### auth
     - POST /api/register
         - form-data
