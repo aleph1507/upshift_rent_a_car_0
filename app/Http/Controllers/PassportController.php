@@ -85,7 +85,7 @@ class PassportController extends Controller
 //            return response()->json(['token' => $token], 200);
             return $token;
         } else {
-            $token = $user->createToken('rac0', ['view_locations', 'search_locations',
+            $token = $user->createToken('rac0', ['overview_locations', 'view_locations', 'search_locations',
                                                 'view_cars', 'search_cars',
                                                 'create_rents', 'view_rents', 'update_rents'])->accessToken;
             return $token;

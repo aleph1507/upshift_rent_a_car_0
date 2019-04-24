@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\Locations as LocationsCollection;
 
 class LocationController extends Controller
 {
@@ -18,8 +19,14 @@ class LocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('filter') && in_array($request->filter, ['address', 'name'])) {
+            if ($request->has('q')) {
+                return new LocationsCollection(Location::where($request->filter, 'LIKE', "%$request->q%")->get());
+            }
+        }
+
         return response()->json(auth()->user()->locations);
     }
 

@@ -18,6 +18,7 @@ class Locations extends ResourceCollection
 //        return parent::toArray($request);
         return [
             'data' => LocationResource::collection($this->collection),
+//            'data' => $this->collection
         ];
     }
 }

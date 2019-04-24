@@ -15,10 +15,28 @@ class CarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(auth()->user()->cars);
-//        return response()->json('cars.index');
+        $cars = null;
+        $searchParams = [];
+        foreach(['brand', 'model', 'year'] as $q) {
+            if($request->has($q))
+                $searchParams[$q] = $request->$q;
+        }
+
+        if($searchParams !== [])
+            $cars = Car::where($searchParams);
+
+        if($request->has('filter') && in_array($request->filter, ['status', 'location', 'priceRange'])) {
+            if ($request->has('filterBy')) {
+                if($cars === null)
+                    return Car::where($request->filter, 'LIKE', "%$request->filterBy%")->get();
+                else
+                    return $cars->where($request->filter, 'LIKE', "%$request->filterBy%")->get();
+            }
+        }
+
+        return $cars === null ? response()->json(auth()->user()->cars) : $cars->get();
     }
 
     /**

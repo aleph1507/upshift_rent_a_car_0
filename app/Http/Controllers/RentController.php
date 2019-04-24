@@ -17,6 +17,7 @@ class RentController extends Controller
      */
     public function index()
     {
+
         return response()->json(auth()->user()->rents);
     }
 
